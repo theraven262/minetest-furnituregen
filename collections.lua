@@ -90,6 +90,16 @@ furniture.types = {
         crafting = {0, 2, 2, 0, 1, 1, 0, 2, 2}
     },
     {
+        name = "shelf_small_book",
+        base = "shelf_small_filled",
+        description = "Small Bookshelf",
+        special_materials = "default:book",
+        special_textures = "furniture_bookshelf1.png",
+        box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5},
+        activate_sound = furniture.storage_sounds,
+        crafting = {3, 2, 2, 0, 1, 1, 3, 2, 2}
+    },
+    {
         name = "shelf_wide",
         description = "Wide Empty Shelf",
         generate_locked = true,
@@ -254,7 +264,8 @@ furniture.woodlike_set = {
     "mirror",
     "flowerpot",
     "door",
-    "door_flipped"
+    "door_flipped",
+    "shelf_small_book"
 }
 
 furniture.stonelike_set = {
