@@ -6,4 +6,8 @@ furniture.register("default:steelblock", furniture.woodlike_set, {"default:steel
 furniture.register("default:sandstone", furniture.stonelike_set, {"default:sandstone", "stairs:slab_sandstone"}, "default_sandstone_block.png")
 furniture.register("default:stone", furniture.stonelike_set, {"default:stone", "stairs:slab_stone"}, "default_stone_block.png")
 
+-- Mod support
+
+if minetest.get_modpath("") then    
+end
 

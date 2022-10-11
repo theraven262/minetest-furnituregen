@@ -19,6 +19,13 @@ furniture.table_copy = function(table)
     return copy
 end
 
+furniture.table_append = function(input_table, table)
+    local table_len = #table
+    for i=1,table_len do
+        table[table_len + i] = input_table[i]
+    end
+end
+
 -- minetest_game's chest formspec, now scalable
 function furniture.get_storage_formspec(pos, storage)
 	local spos = pos.x .. "," .. pos.y .. "," .. pos.z
