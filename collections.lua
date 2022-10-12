@@ -15,8 +15,28 @@ furniture.door_close_sounds = {
     steelblock = "doors_steel_door_close"
 }
 
--- Model collections
+-- Model Definitions
+-- //this table is already long, you should probably append your new table to this one using furniture.table_append()//
 furniture.types = {
+    {
+        -- name - code name
+        -- base - base model, no file extension (leave empty if same as name)
+        -- description - description prefix
+        -- active [true/false] - does this node swap with a different version when right clicked
+        -- special_materials - materials other than base, used for crafting (optional, order important)
+        -- special_textures - textures other than base (optional, order important)
+        -- special_textures_activated - textures other than base for the activated model (optional, order important)
+        -- light_source - override for the base node (optional, inherited from base)
+        -- light_source_activated - override for the activated node (optional, inherited from base)
+        -- storage - number of rows of inventory, 8 slots each (optional)
+        -- generate_locked [true/false] - do the locked versions of the node generate (optional, only works if there is storage or node is active)
+        -- box - both the selection and the collision box
+        -- box_activated - both the selection and the collision box for the activated counterpart
+        -- activate_sound - table containing the default and specific sounds that play upon activation
+        -- deactivate_sound - table containing the default and specific sounds that play upon activation of the active counterpart
+        -- crafting - an array where each position corresponds to a cell in the crafting grid, values represent materials; 0 is empty, 1 is base and
+        -- above are the other materials in the order from special_materials
+    },
     {
         name = "chair",
         description = "Chair",
@@ -96,7 +116,6 @@ furniture.types = {
         special_materials = "default:book",
         special_textures = "furniture_bookshelf1.png",
         box = {-0.5, -0.5, -0.0625, 0.5, 0.5, 0.5},
-        activate_sound = furniture.storage_sounds,
         crafting = {3, 2, 2, 0, 1, 1, 3, 2, 2}
     },
     {
@@ -108,13 +127,22 @@ furniture.types = {
         activate_sound = furniture.storage_sounds,
         crafting = {2, 2, 2, 1, 1, 1, 2, 2, 2}
     },
+    {
+        name = "shelf_wide_book",
+        base = "shelf_wide_filled",
+        description = "Wide Bookshelf",
+        special_materials = "default:book",
+        special_textures = "furniture_bookshelf_wide1.png",
+        box = {-1.0, -0.5, -0.0625, 1.0, 0.5, 0.5},
+        crafting = {2, 3, 2, 1, 1, 1, 2, 3, 2}
+    },
     -- Stonelike
     {
         name = "window_glass_thick",
         base = "window_thick",
         description = "Glass Window",
         special_materials = "default:glass",
-        special_textures = "default_glass.png",
+        special_textures = "furniture_glass.png", -- Not using the default texture in order to avoid white pixels in the center
         box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
         crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
     },
@@ -228,28 +256,10 @@ furniture.types = {
         deactivate_sound = furniture.door_close_sounds,
         crafting = {0, 1, 1, 2, 1, 1, 0, 1, 1}
     },
-    {
-        -- name - code name
-        -- base - base model, no file extension (leave empty if same as name)
-        -- description - description prefix
-        -- active [true/false] - does this node swap with a different version when right clicked
-        -- special_materials - materials other than base, used for crafting (optional, order important)
-        -- special_textures - textures other than base (optional, order important)
-        -- special_textures_activated - textures other than base for the activated model (optional, order important)
-        -- light_source - override for the base node (optional, inherited from base)
-        -- light_source_activated - override for the activated node (optional, inherited from base)
-        -- storage - number of rows of inventory, 8 slots each (optional)
-        -- generate_locked [true/false] - do the locked versions of the node generate (optional, only works if there is storage or node is active)
-        -- box - both the selection and the collision box
-        -- box_activated - both the selection and the collision box for the activated counterpart
-        -- activate_sound - table containing the default and specific sounds that play upon activation
-        -- deactivate_sound - table containing the default and specific sounds that play upon activation of the active counterpart
-        -- crafting - an array where each position corresponds to a cell in the crafting grid, values represent materials; 0 is empty, 1 is base and
-        -- above are the other materials in the order from special_materials
-    },
 }
 
 -- Sets
+-- //it is preferable that you register new sets here, for readability//
 furniture.woodlike_set = {
     "chair",
     "table_square",
@@ -265,7 +275,8 @@ furniture.woodlike_set = {
     "flowerpot",
     "door",
     "door_flipped",
-    "shelf_small_book"
+    "shelf_small_book",
+    "shelf_wide_book"
 }
 
 furniture.stonelike_set = {
@@ -286,4 +297,3 @@ furniture.stonelike_set = {
 }
 
 -- furniture.glasslike_set = {}
-

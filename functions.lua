@@ -19,11 +19,22 @@ furniture.table_copy = function(table)
     return copy
 end
 
-furniture.table_append = function(input_table, table)
+furniture.table_append = function(table, input_table)
     local table_len = #table
     for i=1,table_len do
         table[table_len + i] = input_table[i]
     end
+end
+
+-- Brick to tile conversion, since bricks are much more common in mods
+function furniture.brick_to_tile(texture)
+    local left_cut = "(" .. texture .. "\\^[sheet\\:2x2\\:1,0)" -- Cut out the bottom brick halves and assemble them as one
+    local right_cut = "(" .. texture .. "\\^[sheet\\:2x2\\:1,1)"
+    local top_stripe = texture .. "\\^[sheet\\:1x16\\:0,4" -- These mask the leftover shading at the top of the new cuts
+    local bottom_stripe = texture .. "\\^[sheet\\:1x16\\:0,6"
+
+    local result = "[combine:16x16:0,0=" .. texture .. ":0,8=" .. right_cut .. ":8,8=" .. left_cut .. ":0,7=" .. top_stripe .. ":0,8=" .. bottom_stripe
+    return result
 end
 
 -- minetest_game's chest formspec, now scalable
@@ -58,7 +69,13 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     local fdef = furniture.types[tablep]
     local base_definition = minetest.registered_nodes[base_node]
     local sname = string.match(base_node, ':(.*)')
-    local furniture_name = "furniture:" .. fdef.name .. "_" .. sname
+    local modname = string.match(base_node, '(.*):')
+    local esname = modname .. "_" .. sname -- For avoiding name conflicts in the sound tables
+    local furniture_name = "furniture:" .. modname .. "_" .. fdef.name .. "_" .. sname -- To avoid potential conflicts in mod support
+    if modname == "default" then
+        furniture_name = "furniture:" .. fdef.name .. "_" .. sname
+        esname = sname
+    end
     local furniture_description =  base_definition.description .. " " .. fdef.description
     local furniture_mesh = (fdef.base or fdef.name) .. ".obj"
     local tiles = {texture or base_definition.tiles[1]}
@@ -129,20 +146,20 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             on_rightclick = function(pos, node)
                 minetest.swap_node(pos, {name = furniture_name .. "_activated", param2 = node.param2})
                 minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                minetest.sound_play(fdef.activate_sound[sname] or fdef.activate_sound.default,
+                minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
                 {pos = pos, max_hear_distance = 10}, true)
             end
             on_rightclick_active = function(pos, node)
                 minetest.swap_node(pos, {name = furniture_name, param2 = node.param2})
                 minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                minetest.sound_play(fdef.deactivate_sound[sname] or fdef.deactivate_sound.default,
+                minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.default,
                 {pos = pos, max_hear_distance = 10}, true)
             end
         end
 
         on_rightclick = function(pos, node, player)
             minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-            minetest.sound_play(fdef.activate_sound[sname] or fdef.activate_sound.default,
+            minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
             {pos = pos, max_hear_distance = 10}, true)
         end
 
@@ -180,12 +197,12 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     if fdef.active then
         on_rightclick = function(pos, node)
             minetest.swap_node(pos, {name = furniture_name .. "_activated", param2 = node.param2})
-            minetest.sound_play(fdef.activate_sound[sname] or fdef.activate_sound.default,
+            minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
             {pos = pos, max_hear_distance = 10}, true)
         end
         on_rightclick_active = function(pos, node)
             minetest.swap_node(pos, {name = furniture_name, param2 = node.param2})
-            minetest.sound_play(fdef.deactivate_sound[sname] or fdef.deactivate_sound.default,
+            minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.default,
             {pos = pos, max_hear_distance = 10}, true)
         end
     end
@@ -204,7 +221,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 local playername = player:get_player_name()
                 if playername == owner then
                     minetest.swap_node(pos, {name = furniture_name .. "_activated_locked", param2 = node.param2})
-                    minetest.sound_play(fdef.activate_sound[sname] or fdef.activate_sound.default,
+                    minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
                     {pos = pos, max_hear_distance = 10}, true)
                 end
             end
@@ -214,7 +231,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 local playername = player:get_player_name()
                 if playername == owner then
                     minetest.swap_node(pos, {name = furniture_name .. "_locked", param2 = node.param2})
-                    minetest.sound_play(fdef.deactivate_sound[sname] or fdef.deactivate_sound.default,
+                    minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.default,
                     {pos = pos, max_hear_distance = 10}, true)
                 end
             end
@@ -236,7 +253,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                     if playername == owner then
                         minetest.swap_node(pos, {name = furniture_name .. "_activated_locked", param2 = node.param2})
                         minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                        minetest.sound_play(fdef.activate_sound[sname] or fdef.activate_sound.default,
+                        minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
                         {pos = pos, max_hear_distance = 10}, true)
                     end
                 end
@@ -247,7 +264,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                     if playername == owner then
                         minetest.swap_node(pos, {name = furniture_name .. "_locked", param2 = node.param2})
                         minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                        minetest.sound_play(fdef.deactivate_sound[sname] or fdef.deactivate_sound.default,
+                        minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.default,
                         {pos = pos, max_hear_distance = 10}, true)
                     end
                 end
@@ -258,7 +275,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 local playername = player:get_player_name()
                 if playername == owner then
                     minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                    minetest.sound_play(fdef.activate_sound[sname] or fdef.activate_sound.default,
+                    minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
                     {pos = pos, max_hear_distance = 10}, true)
                 end
             end
@@ -386,37 +403,38 @@ function furniture.register_crafting(base_node, i, materials_in, locked)
     local fdef = furniture.types[i]
     local base_definition = minetest.registered_nodes[base_node]
     local sname = string.match(base_node, ':(.*)')
-    local furniture_name = "furniture:" .. fdef.name .. "_" .. sname
-    local special_sname
-    if (type(fdef.special_materials) == "table") then -- Append special material(s) to the end
-        for j=1,#fdef.special_materials do
-            materials[#materials+j] = fdef.special_materials[j]
-        end
-    elseif (type(fdef.special_materials) == "string") then
-        materials[#materials+1] = fdef.special_materials
+    local modname = string.match(base_node, '(.*):')
+    local furniture_name = "furniture:" .. modname .. "_" .. fdef.name .. "_" .. sname
+    if modname == "default" then
+        furniture_name = "furniture:" .. fdef.name .. "_" .. sname
     end
-    -- Array to recipe translator
-    materials[0] = ""
-    if fdef.crafting then
-        local recipe = {{}, {}, {}}
-        for rw=1,3 do
-            for cl=1,3 do
-                recipe[rw][cl] = materials[fdef.crafting[((rw)*3+cl)-3]]
-            end
-        end
-        -- Locking recipe modifier
-        if locked then
-            if recipe[2][1] == "default:steel_ingot" then
-                recipe[2][3] = "default:steel_ingot"
-            else
-                recipe[2][1] = "default:steel_ingot"
-            end
-            furniture_name = furniture_name .. "_locked"
-        end
-
+    if locked then
         minetest.register_craft({
-            output = furniture_name,
-            recipe = recipe,
+            type = "shapeless",
+            output = furniture_name .. "_locked",
+            recipe = {"furniture:lock", furniture_name},
         })
+    else
+        if (type(fdef.special_materials) == "table") then -- Append special material(s) to the end
+            for j=1,#fdef.special_materials do
+                materials[#materials+j] = fdef.special_materials[j]
+            end
+        elseif (type(fdef.special_materials) == "string") then
+            materials[#materials+1] = fdef.special_materials
+        end
+        -- Array to recipe translator
+        materials[0] = ""
+        if fdef.crafting then
+            local recipe = {{}, {}, {}}
+            for rw=1,3 do
+                for cl=1,3 do
+                    recipe[rw][cl] = materials[fdef.crafting[((rw)*3+cl)-3]]
+                end
+            end
+            minetest.register_craft({
+                output = furniture_name,
+                recipe = recipe,
+            })
+        end
     end
 end
