@@ -19,6 +19,12 @@ furniture.table_copy = function(table)
     return copy
 end
 
+furniture.dictionary_append = function(table, input_table)
+    for intable_key, intable_value in pairs(input_table) do
+        table[intable_key] = intable_value
+    end
+end
+
 furniture.table_append = function(table, input_table)
     local table_len = #table
     for i=1,table_len do

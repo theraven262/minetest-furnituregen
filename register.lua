@@ -139,6 +139,26 @@ if minetest.get_modpath("caverealms") then
         "window_glow_mese_thick",
         "window_glow_ruby_thick"
     }
+    furniture.caverealms_door_open_sounds = {
+        caverealms_glow_amethyst = "doors_glass_door_open",
+        caverealms_glow_crystal = "doors_glass_door_open",
+        caverealms_glow_emerald = "doors_glass_door_open",
+        caverealms_glow_mese = "doors_glass_door_open",
+        caverealms_glow_ruby = "doors_glass_door_open",
+        caverealms_glow_obsidian_glass = "doors_glass_door_open",
+    }
+    furniture.caverealms_door_close_sounds = {
+        caverealms_glow_amethyst = "doors_glass_door_close",
+        caverealms_glow_crystal = "doors_glass_door_close",
+        caverealms_glow_emerald = "doors_glass_door_close",
+        caverealms_glow_mese = "doors_glass_door_close",
+        caverealms_glow_ruby = "doors_glass_door_close",
+        caverealms_glow_obsidian_glass = "doors_glass_door_close",
+    }
+
+    furniture.dictionary_append(furniture.door_open_sounds, furniture.caverealms_door_open_sounds)
+    furniture.dictionary_append(furniture.door_close_sounds, furniture.caverealms_door_close_sounds)
+
     furniture.table_append(furniture.types, furniture.caverealms_types)
     furniture.table_append(furniture.woodlike_set, furniture.caverealms_woodlike)
     furniture.table_append(furniture.stonelike_set, furniture.caverealms_stonelike)
@@ -365,11 +385,20 @@ else
     furniture.register("default:stone", furniture.stonelike_set, {"default:stone", "stairs:slab_stone"}, "default_stone_block.png")
 end
 
+furniture.register("default:glass", furniture.glasslike_set, {"default:glass", "default:sand"}, "default_glass.png")
+furniture.register("default:obsidian_glass", furniture.glasslike_set, {"default:obsidian_glass", "default:obsidian_shard"}, "default_obsidian_glass.png")
+
 -- Mod Material Registration (In the Presence of Mods - Part II)
 
 -- Caverealms Lite
 if minetest.get_modpath("caverealms") then
     furniture.register("caverealms:glow_obsidian", furniture.stonelike_set, {"caverealms:glow_obsidian", "caverealms:glow_obsidian_glass"}, furniture.brick_to_tile("caverealms_glow_obsidian_brick.png"))
+    furniture.register("caverealms:glow_amethyst", furniture.glasslike_set, {"caverealms:glow_amethyst", "default:glass"}, "furniture_caverealms_glow_amethyst.png")
+    furniture.register("caverealms:glow_crystal", furniture.glasslike_set, {"caverealms:glow_crystal", "default:glass"}, "furniture_caverealms_glow_crystal.png")
+    furniture.register("caverealms:glow_emerald", furniture.glasslike_set, {"caverealms:glow_emerald", "default:glass"}, "furniture_caverealms_glow_emerald.png")
+    furniture.register("caverealms:glow_mese", furniture.glasslike_set, {"caverealms:glow_mese", "default:glass"}, "furniture_caverealms_glow_mese.png")
+    furniture.register("caverealms:glow_ruby", furniture.glasslike_set, {"caverealms:glow_ruby", "default:glass"}, "furniture_caverealms_glow_ruby.png")
+    furniture.register("caverealms:glow_obsidian_glass", furniture.glasslike_set, {"caverealms:glow_obsidian_glass", "default:obsidian_shard"})
 end
 -- Darkage
 if minetest.get_modpath("darkage") then

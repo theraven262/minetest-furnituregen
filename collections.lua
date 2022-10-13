@@ -7,12 +7,16 @@ furniture.storage_sounds = {
 furniture.door_open_sounds = {
     default = "doors_door_open",
     wood = "doors_door_open",
-    steelblock = "doors_steel_door_open"
+    steelblock = "doors_steel_door_open",
+    glass = "doors_glass_door_open",
+    obsidian_glass = "doors_glass_door_open",
 }
 furniture.door_close_sounds = {
     default = "doors_door_close",
     wood = "doors_door_close",
-    steelblock = "doors_steel_door_close"
+    steelblock = "doors_steel_door_close",
+    glass = "doors_glass_door_close",
+    obsidian_glass = "doors_glass_door_close",
 }
 
 -- Model Definitions
@@ -216,7 +220,47 @@ furniture.types = {
         activate_sound = furniture.storage_sounds,
         crafting = {2, 1, 1, 2, 1, 1, 2, 1, 1}
     },
-    -- Glasslike (tba)
+    -- Glasslike
+    {
+        name = "table_square_glass",
+        description = "Square Table",
+        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
+        crafting = {1, 1, 1, 2, 0, 2, 2, 0, 2}
+    },
+    {
+        name = "table_round_glass",
+        description = "Round Table",
+        box = {-0.5, -0.5, -0.5, 0.5, 0.125, 0.5},
+        crafting = {1, 1, 1, 2, 1, 2, 2, 0, 2}
+    },
+    {
+        name = "chair_glass",
+        description = "Chair",
+        box = {-5/16, -0.5, -3/16, 5/16, 11/16, 6/16},
+        crafting = {0, 0, 1, 0, 1, 1, 0, 2, 2}
+    },
+    {
+        name = "door_glass",
+        description = "Door",
+        active = true,
+        generate_locked = true,
+        box = {-0.5, -0.5, -0.5, 0.5, 1.5, -6/16},
+        box_activated = {-0.5, -0.5, -0.5, -6/16, 1.5, 0.5},
+        activate_sound = furniture.door_open_sounds,
+        deactivate_sound = furniture.door_close_sounds,
+        crafting = {1, 1, 0, 1, 1, 2, 1, 1, 0}
+    },
+    {
+        name = "door_flipped_glass",
+        description = "Door (flipped)",
+        active = true,
+        generate_locked = true,
+        box = {-0.5, -0.5, -0.5, 0.5, 1.5, -6/16},
+        box_activated = {0.5, -0.5, -0.5, 6/16, 1.5, 0.5},
+        activate_sound = furniture.door_open_sounds,
+        deactivate_sound = furniture.door_close_sounds,
+        crafting = {0, 1, 1, 2, 1, 1, 0, 1, 1}
+    },
     -- Universal
     {
         name = "mirror",
@@ -296,4 +340,10 @@ furniture.stonelike_set = {
     "door_flipped"
 }
 
--- furniture.glasslike_set = {}
+furniture.glasslike_set = {
+    "table_square_glass",
+    "table_round_glass",
+    "chair_glass",
+    "door_glass",
+    "door_flipped_glass",
+}
