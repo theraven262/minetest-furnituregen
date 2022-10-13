@@ -393,11 +393,11 @@ furniture.register("default:obsidian_glass", furniture.glasslike_set, {"default:
 -- Caverealms Lite
 if minetest.get_modpath("caverealms") then
     furniture.register("caverealms:glow_obsidian", furniture.stonelike_set, {"caverealms:glow_obsidian", "caverealms:glow_obsidian_glass"}, furniture.brick_to_tile("caverealms_glow_obsidian_brick.png"))
-    furniture.register("caverealms:glow_amethyst", furniture.glasslike_set, {"caverealms:glow_amethyst", "default:glass"}, "furniture_caverealms_glow_amethyst.png")
-    furniture.register("caverealms:glow_crystal", furniture.glasslike_set, {"caverealms:glow_crystal", "default:glass"}, "furniture_caverealms_glow_crystal.png")
-    furniture.register("caverealms:glow_emerald", furniture.glasslike_set, {"caverealms:glow_emerald", "default:glass"}, "furniture_caverealms_glow_emerald.png")
-    furniture.register("caverealms:glow_mese", furniture.glasslike_set, {"caverealms:glow_mese", "default:glass"}, "furniture_caverealms_glow_mese.png")
-    furniture.register("caverealms:glow_ruby", furniture.glasslike_set, {"caverealms:glow_ruby", "default:glass"}, "furniture_caverealms_glow_ruby.png")
+    furniture.register("caverealms:glow_amethyst", furniture.glasslike_set, {"caverealms:glow_amethyst", "caverealms:fungus"}, "furniture_caverealms_glow_amethyst.png")
+    furniture.register("caverealms:glow_crystal", furniture.glasslike_set, {"caverealms:glow_crystal", "caverealms:glow_gem"}, "furniture_caverealms_glow_crystal.png")
+    furniture.register("caverealms:glow_emerald", furniture.glasslike_set, {"caverealms:glow_emerald", "caverealms:glow_worm_green"}, "furniture_caverealms_glow_emerald.png")
+    furniture.register("caverealms:glow_mese", furniture.glasslike_set, {"caverealms:glow_mese", "default:mese_crystal_fragment"}, "furniture_caverealms_glow_mese.png")
+    furniture.register("caverealms:glow_ruby", furniture.glasslike_set, {"caverealms:glow_ruby", "caverealms:fire_vine"}, "furniture_caverealms_glow_ruby.png")
     furniture.register("caverealms:glow_obsidian_glass", furniture.glasslike_set, {"caverealms:glow_obsidian_glass", "default:obsidian_shard"})
 end
 -- Darkage
