@@ -30,16 +30,18 @@ furniture.types = {
         -- special_materials - materials other than base, used for crafting (optional, order important)
         -- special_textures - textures other than base (optional, order important)
         -- special_textures_activated - textures other than base for the activated model (optional, order important)
-        -- light_source - override for the base node (optional, inherited from base)
-        -- light_source_activated - override for the activated node (optional, inherited from base)
         -- storage - number of rows of inventory, 8 slots each (optional)
         -- generate_locked [true/false] - do the locked versions of the node generate (optional, only works if there is storage or node is active)
         -- box - both the selection and the collision box
         -- box_activated - both the selection and the collision box for the activated counterpart
-        -- activate_sound - table containing the default and specific sounds that play upon activation
-        -- deactivate_sound - table containing the default and specific sounds that play upon activation of the active counterpart
+        -- activate_sound - table containing the default and mod-material-specific sounds that play upon activation
+        -- deactivate_sound - table containing the default and mod-material-specific sounds that play upon activation of the active counterpart
+        -- groups - groups which are added to the groups table of the resulting node, can override base node's groups (optional)
+        -- groups_active - groups which are added to the groups table of the active node, can override base node's groups (optional)
         -- crafting - an array where each position corresponds to a cell in the crafting grid, values represent materials; 0 is empty, 1 is base and
         -- above are the other materials in the order from special_materials
+        -- The following overrides can be applied to the base node, and/or to the active node by appending the _active suffix (all optional):
+        -- light_source, visual_scale, post_effect_color, place_param2, walkable, pointable, diggable, climbable, move_resistance, buildable_to, floodable, drowning, damage per second.
     },
     {
         name = "chair",

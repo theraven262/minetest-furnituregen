@@ -89,13 +89,19 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     local sounds = base_definition.sounds
     local collision_box = {type = "fixed", fixed = fdef.box}
     local groups = furniture.table_copy(base_definition.groups)
+    if fdef.groups then
+        furniture.dictionary_append(groups, fdef.groups)
+    end
 
     -- Active versions
     local furniture_mesh_active = (fdef.base or fdef.name) .. "_activated.obj"
     local tiles_active = furniture.table_copy(tiles)
     local collision_box_active = {type = "fixed", fixed = fdef.box_activated}       
-    local groups_active = furniture.table_copy(groups) 
+    local groups_active = furniture.table_copy(groups)
     groups_active.not_in_creative_inventory = 1
+    if fdef.groups_active then
+        furniture.dictionary_append(groups_active, fdef.groups_active)
+    end
 
     -- Textures
     if (type(fdef.special_textures) == "table") then
@@ -316,14 +322,26 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
         paramtype2 = "facedir",
         sunlight_propagates = true,
         sounds = sounds,
-        light_source = fdef.light_source or base_definition.light_source,
         after_place_node = after_place_node,
         on_rightclick = on_rightclick,
         can_dig = can_dig,
         on_blast = on_blast,
         on_metadata_inventory_put = on_metadata_inventory_put,
         on_metadata_inventory_move = on_metadata_inventory_move,
-        on_metadata_inventory_take = on_metadata_inventory_take
+        on_metadata_inventory_take = on_metadata_inventory_take,
+        light_source = fdef.light_source or base_definition.light_source,
+        visual_scale = fdef.visual_scale or base_definition.visual_scale,
+        post_effect_color = fdef.post_effect_color or base_definition.post_effect_color,
+        place_param2 = fdef.place_param2 or base_definition.place_param2,
+        walkable = fdef.walkable or base_definition.walkable,
+        pointable = fdef.pointable or base_definition.pointable,
+        diggable = fdef.diggable or base_definition.diggable,
+        climbable = fdef.climbable or base_definition.climbable,
+        move_resistance = fdef.move_resistance or base_definition.move_resistance,
+        buildable_to = fdef.buildable_to or base_definition.buildable_to,
+        floodable = fdef.floodable or base_definition.floodable,
+        drowning = fdef.drowning or base_definition.drowning,
+        damage_per_second = fdef.damage_per_second or base_definition.damage_per_second
     })
 
     if fdef.active then
@@ -340,7 +358,6 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             paramtype2 = "facedir",
             sunlight_propagates = true,
             sounds = sounds,
-            light_source = fdef.light_source_active or base_definition.light_source,
             drops = furniture_name,
             after_place_node = after_place_node,
             on_rightclick = on_rightclick_active,
@@ -348,7 +365,20 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             on_blast = on_blast,
             on_metadata_inventory_put = on_metadata_inventory_put,
             on_metadata_inventory_move = on_metadata_inventory_move,
-            on_metadata_inventory_take = on_metadata_inventory_take
+            on_metadata_inventory_take = on_metadata_inventory_take,
+            light_source = fdef.light_source_active or base_definition.light_source,
+            visual_scale = fdef.visual_scale_active or base_definition.visual_scale,
+            post_effect_color = fdef.post_effect_color_active or base_definition.post_effect_color,
+            place_param2 = fdef.place_param2_active or base_definition.place_param2,
+            walkable = fdef.walkable_active or base_definition.walkable,
+            pointable = fdef.pointable_active or base_definition.pointable,
+            diggable = fdef.diggable_active or base_definition.diggable,
+            climbable = fdef.climbable_active or base_definition.climbable,
+            move_resistance = fdef.move_resistance_active or base_definition.move_resistance,
+            buildable_to = fdef.buildable_to_active or base_definition.buildable_to,
+            floodable = fdef.floodable_active or base_definition.floodable,
+            drowning = fdef.drowning_active or base_definition.drowning,
+            damage_per_second = fdef.damage_per_second_active or base_definition.damage_per_second
         })
     end
 
@@ -373,7 +403,20 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             on_blast = on_blast_locked,
             on_metadata_inventory_put = on_metadata_inventory_put,
             on_metadata_inventory_move = on_metadata_inventory_move,
-            on_metadata_inventory_take = on_metadata_inventory_take
+            on_metadata_inventory_take = on_metadata_inventory_take,
+            light_source = fdef.light_source or base_definition.light_source,
+            visual_scale = fdef.visual_scale or base_definition.visual_scale,
+            post_effect_color = fdef.post_effect_color or base_definition.post_effect_color,
+            place_param2 = fdef.place_param2 or base_definition.place_param2,
+            walkable = fdef.walkable or base_definition.walkable,
+            pointable = fdef.pointable or base_definition.pointable,
+            diggable = fdef.diggable or base_definition.diggable,
+            climbable = fdef.climbable or base_definition.climbable,
+            move_resistance = fdef.move_resistance or base_definition.move_resistance,
+            buildable_to = fdef.buildable_to or base_definition.buildable_to,
+            floodable = fdef.floodable or base_definition.floodable,
+            drowning = fdef.drowning or base_definition.drowning,
+            damage_per_second = fdef.damage_per_second or base_definition.damage_per_second
         })
         if fdef.active then
             minetest.register_node(furniture_name .. "_activated_locked", {
@@ -397,7 +440,20 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 on_blast = on_blast_locked,
                 on_metadata_inventory_put = on_metadata_inventory_put,
                 on_metadata_inventory_move = on_metadata_inventory_move,
-                on_metadata_inventory_take = on_metadata_inventory_take
+                on_metadata_inventory_take = on_metadata_inventory_take,
+                light_source = fdef.light_source_active or base_definition.light_source,
+                visual_scale = fdef.visual_scale_active or base_definition.visual_scale,
+                post_effect_color = fdef.post_effect_color_active or base_definition.post_effect_color,
+                place_param2 = fdef.place_param2_active or base_definition.place_param2,
+                walkable = fdef.walkable_active or base_definition.walkable,
+                pointable = fdef.pointable_active or base_definition.pointable,
+                diggable = fdef.diggable_active or base_definition.diggable,
+                climbable = fdef.climbable_active or base_definition.climbable,
+                move_resistance = fdef.move_resistance_active or base_definition.move_resistance,
+                buildable_to = fdef.buildable_to_active or base_definition.buildable_to,
+                floodable = fdef.floodable_active or base_definition.floodable,
+                drowning = fdef.drowning_active or base_definition.drowning,
+                damage_per_second = fdef.damage_per_second_active or base_definition.damage_per_second
             })
         end    
     end
