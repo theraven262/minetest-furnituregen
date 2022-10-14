@@ -96,7 +96,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     -- Active versions
     local furniture_mesh_active = (fdef.base or fdef.name) .. "_activated.obj"
     local tiles_active = furniture.table_copy(tiles)
-    local collision_box_active = {type = "fixed", fixed = fdef.box_activated}       
+    local collision_box_active = {type = "fixed", fixed = fdef.box_activated}
     local groups_active = furniture.table_copy(groups)
     groups_active.not_in_creative_inventory = 1
     if fdef.groups_active then
@@ -280,7 +280,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                         {pos = pos, max_hear_distance = 10}, true)
                     end
                 end
-            end    
+            end
             on_rightclick_locked = function(pos, node, player)
                 local meta = minetest.get_meta(pos)
                 local owner = meta:get_string("owner")
@@ -301,8 +301,8 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 else
                     return false
                 end
-            end    
-            on_blast_locked = function()               
+            end
+            on_blast_locked = function()
             end
         end
     end
@@ -451,7 +451,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 drowning = fdef.drowning_active or base_definition.drowning,
                 damage_per_second = fdef.damage_per_second_active or base_definition.damage_per_second
             })
-        end    
+        end
     end
 end
 

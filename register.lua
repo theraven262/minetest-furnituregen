@@ -131,7 +131,7 @@ if minetest.get_modpath("caverealms") then
         "window_glow_mese",
         "window_glow_ruby"
     }
-    furniture.caverealms_stonelike = {        
+    furniture.caverealms_stonelike = {
         "window_glow_obsidian_glass_thick",
         "window_glow_amethyst_thick",
         "window_glow_crystal_thick",
@@ -300,9 +300,9 @@ if minetest.get_modpath("darkage") then
         "window_darkage_glow_glass",
         "window_darkage_glow_glass_round",
         "window_darkage_glow_glass_square",
-        "flowerpot_darkdirt"        
+        "flowerpot_darkdirt"
     }
-    furniture.darkage_stonelike = {        
+    furniture.darkage_stonelike = {
         "window_darkage_glass_thick",
         "window_darkage_glass_round_thick",
         "window_darkage_glass_square_thick",
@@ -465,7 +465,7 @@ if minetest.get_modpath("moreblocks") then
         "window_glow_glass",
         "window_super_glow_glass"
     }
-    furniture.moreblocks_stonelike = {        
+    furniture.moreblocks_stonelike = {
         "window_glow_glass_thick",
         "window_super_glow_glass_thick"
     }
@@ -475,25 +475,35 @@ if minetest.get_modpath("moreblocks") then
 end
 
 -- Default Material Registration
-
+-- Woodlike
 furniture.register("default:wood", furniture.woodlike_set, {"default:wood", "default:stick"}, "furniture_wood.png")
 furniture.register("default:acacia_wood", furniture.woodlike_set, {"default:acacia_wood", "default:stick"}, "furniture_acacia_wood.png")
 furniture.register("default:aspen_wood", furniture.woodlike_set, {"default:aspen_wood", "default:stick"}, "furniture_aspen_wood.png")
 furniture.register("default:junglewood", furniture.woodlike_set, {"default:junglewood", "default:stick"}, "furniture_junglewood.png")
 furniture.register("default:pine_wood", furniture.woodlike_set, {"default:pine_wood", "default:stick"}, "furniture_pine_wood.png")
 furniture.register("default:steelblock", furniture.woodlike_set, {"default:steelblock", "default:steel_ingot"}, "furniture_steelblock.png")
-
+-- Stonelike
 local sandstone_secondary = "stairs:slab_sandstone"
+local desert_sandstone_secondary = "stairs:slab_desert_sandstone"
+local silver_sandstone_secondary = "stairs:slab_silver_sandstone"
 local stone_secondary = "stairs:slab_stone"
+local desert_stone_secondary = "stairs:slab_desert_stone"
 
 if minetest.get_modpath("moreblocks") then -- Cause moreblocks overrides slabs
     sandstone_secondary = "moreblocks:slab_sandstone"
+    desert_sandstone_secondary = "moreblocks:slab_desert_sandstone"
+    silver_sandstone_secondary = "moreblocks:slab_silver_sandstone"
     stone_secondary = "moreblocks:slab_stone"
+    desert_stone_secondary = "moreblocks:slab_desert_stone"
 end
 
 furniture.register("default:sandstone", furniture.stonelike_set, {"default:sandstone", sandstone_secondary}, "default_sandstone_block.png")
+furniture.register("default:desert_sandstone", furniture.stonelike_set, {"default:desert_sandstone", desert_sandstone_secondary}, "default_desert_sandstone_block.png")
+furniture.register("default:silver_sandstone", furniture.stonelike_set, {"default:silver_sandstone", silver_sandstone_secondary}, "default_silver_sandstone_block.png")
 furniture.register("default:stone", furniture.stonelike_set, {"default:stone", stone_secondary}, "default_stone_block.png")
-
+furniture.register("default:desert_stone", furniture.stonelike_set, {"default:desert_stone", desert_stone_secondary}, "default_desert_stone_block.png")
+furniture.register("default:obsidian", furniture.stonelike_set, {"default:obsidian", "default:obsidian_shard"}, "default_obsidian_block.png")
+-- Glasslike
 furniture.register("default:glass", furniture.glasslike_set, {"default:glass", "default:sand"}, "default_glass.png")
 furniture.register("default:obsidian_glass", furniture.glasslike_set, {"default:obsidian_glass", "default:obsidian_shard"}, "default_obsidian_glass.png")
 
