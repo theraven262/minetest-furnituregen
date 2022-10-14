@@ -315,6 +315,108 @@ if minetest.get_modpath("darkage") then
     furniture.table_append(furniture.woodlike_set, furniture.darkage_woodlike)
     furniture.table_append(furniture.stonelike_set, furniture.darkage_stonelike)
 end
+-- Dwarf Fortress Caverns
+if minetest.get_modpath("df_mapitems") then
+    furniture.dfmap_types = {
+        -- Woodlike
+        {
+            name = "window_df_mese",
+            base = "window",
+            description = "Flawless Mese Window",
+            special_materials = "df_mapitems:glow_mese",
+            special_textures = "furniture_caverealms_glow_mese.png",
+            box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
+            crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+        },
+        -- Stonelike
+        {
+            name = "window_df_mese_thick",
+            base = "window_thick",
+            description = "Flawless Mese Window",
+            special_materials = "df_mapitems:glow_mese",
+            special_textures = "furniture_caverealms_glow_mese.png",
+            box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
+            crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+        },
+    }
+    furniture.dfmap_woodlike = {
+        "window_df_mese",
+    }
+    furniture.dfmap_stonelike = {
+        "window_df_mese_thick",
+    }
+    furniture.table_append(furniture.types, furniture.dfmap_types)
+    furniture.table_append(furniture.woodlike_set, furniture.dfmap_woodlike)
+    furniture.table_append(furniture.stonelike_set, furniture.dfmap_stonelike)
+end
+if minetest.get_modpath("df_underworld_items") then
+    furniture.dfunder_types = {
+        -- Woodlike
+        {
+            name = "window_df_amethyst",
+            base = "window",
+            description = "Amethyst Window",
+            special_materials = "df_underworld_items:glow_amethyst",
+            special_textures = "furniture_caverealms_glow_amethyst.png",
+            box = {-0.5, -0.5, -0.125, 0.5, 0.5, 0.125},
+            crafting = {0, 1, 0, 2, 3, 2, 0, 1, 0}
+        },
+        -- Stonelike
+        {
+            name = "window_df_amethyst_thick",
+            base = "window_thick",
+            description = "Amethyst Window",
+            special_materials = "df_underworld_items:glow_amethyst",
+            special_textures = "furniture_caverealms_glow_amethyst.png",
+            box = {-0.5, -0.5, -0.1875, 0.5, 0.5, 0.1875},
+            crafting = {1, 1, 1, 1, 3, 1, 1, 1, 1}
+        },
+        -- Universal
+        {
+            name = "flowerpot_slade_sand",
+            base = "flowerpot",
+            description = "Flowerpot with Slade Sand",
+            special_materials = "df_underworld_items:slade_sand",
+            special_textures = "dfcaverns_slade_sand.png",
+            box = {-7/16, -8/16, -7/16, 7/16, 8/16, 7/16},
+            crafting = {2, 3, 2, 2, 1, 2, 2, 1, 2}
+        },
+    }
+    furniture.dfunder_woodlike = {
+        "window_df_amethyst",
+        "flowerpot_slade_sand"
+    }
+    furniture.dfunder_stonelike = {
+        "window_df_amethyst_thick",
+        "flowerpot_slade_sand"
+    }
+    furniture.table_append(furniture.types, furniture.dfunder_types)
+    furniture.table_append(furniture.woodlike_set, furniture.dfunder_woodlike)
+    furniture.table_append(furniture.stonelike_set, furniture.dfunder_stonelike)
+end
+-- Ethereal
+if minetest.get_modpath("ethereal") then
+    furniture.ethereal_types = {
+        {
+            name = "flowerpot_ethereal_dry_dirt",
+            base = "flowerpot",
+            description = "Flowerpot with Dried Dirt",
+            special_materials = "ethereal:dry_dirt",
+            special_textures = "ethereal_dry_dirt.png",
+            box = {-7/16, -8/16, -7/16, 7/16, 8/16, 7/16},
+            crafting = {2, 3, 2, 2, 1, 2, 2, 1, 2}
+        },
+    }
+    furniture.ethereal_stonelike = {
+        "flowerpot_ethereal_dry_dirt",
+    }
+    furniture.ethereal_woodlike = {
+        "flowerpot_ethereal_dry_dirt"
+    }
+    furniture.table_append(furniture.types, furniture.ethereal_types)
+    furniture.table_append(furniture.stonelike_set, furniture.ethereal_stonelike)
+    furniture.table_append(furniture.woodlike_set, furniture.ethereal_woodlike)
+end
 -- Moreblocks
 if minetest.get_modpath("moreblocks") then
     furniture.moreblocks_types = {
@@ -410,6 +512,46 @@ if minetest.get_modpath("darkage") then
     end
     furniture.register("darkage:basalt", furniture.stonelike_set, {"darkage:basalt", secondary_basalt}, "darkage_basalt_block.png")
     furniture.register("darkage:marble", furniture.stonelike_set, {"darkage:marble", secondary_marble}, "darkage_marble_tile.png")
+end
+-- Dwarf Fortress Caves
+if minetest.get_modpath("df_mapitems") then
+    furniture.register("df_mapitems:glow_mese", furniture.glasslike_set, {"df_mapitems:glow_mese", "default:mese_crystal_fragment"}, "furniture_caverealms_glow_mese.png")
+end
+if minetest.get_modpath("df_underworld_items") then
+    furniture.register("df_underworld_items:slade", furniture.stonelike_set, {"df_underworld_items:slade_brick", "df_underworld_items:slade_sand"}, "dfcaverns_slade_block.png")
+    furniture.register("df_underworld_items:glow_amethyst", furniture.glasslike_set, {"df_underworld_items:glow_amethyst", "default:obsidian_shard"}, "furniture_caverealms_glow_amethyst.png")
+end
+if minetest.get_modpath("df_trees") then
+    furniture.register("df_trees:black_cap_wood", furniture.woodlike_set, {"df_trees:black_cap_wood", "default:stick"}, "furniture_dfcaverns_black_cap.png")
+    furniture.register("df_trees:blood_thorn_wood", furniture.woodlike_set, {"df_trees:blood_thorn_wood", "default:stick"}, "furniture_dfcaverns_blood_thorn.png")
+    furniture.register("df_trees:fungiwood_wood", furniture.woodlike_set, {"df_trees:fungiwood_wood", "default:stick"}, "furniture_dfcaverns_fungiwood.png")
+    furniture.register("df_trees:goblin_cap_wood", furniture.woodlike_set, {"df_trees:goblin_cap_wood", "default:stick"}, "furniture_dfcaverns_goblin_cap.png")
+    furniture.register("df_trees:goblin_cap_stem_wood", furniture.woodlike_set, {"df_trees:goblin_cap_stem_wood", "default:stick"}, "furniture_dfcaverns_goblin_cap_stem.png")
+    furniture.register("df_trees:nether_cap_wood", furniture.woodlike_set, {"df_trees:nether_cap_wood", "default:stick"}, "furniture_dfcaverns_nether_cap.png")
+    furniture.register("df_trees:spore_tree_wood", furniture.woodlike_set, {"df_trees:spore_tree_wood", "default:stick"}, "furniture_dfcaverns_spore_tree.png")
+    furniture.register("df_trees:tower_cap_wood", furniture.woodlike_set, {"df_trees:tower_cap_wood", "default:stick"}, "furniture_dfcaverns_tower_cap.png")
+    furniture.register("df_trees:tunnel_tube_wood", furniture.woodlike_set, {"df_trees:tunnel_tube_wood", "default:stick"}, "furniture_dfcaverns_tunnel_tube.png")
+end
+if minetest.get_modpath("df_primordial_items") then
+    furniture.register("df_primordial_items:fern_wood", furniture.woodlike_set, {"df_primordial_items:fern_wood", "default:stick"}, "furniture_dfcaverns_giant_fern.png")
+end
+--Ethereal
+if minetest.get_modpath("ethereal") then
+    local secondary_blue_marble = "stairs:slab_blue_marble"
+    if minetest.get_modpath("moreblocks") then
+        secondary_blue_marble = "ethereal:slab_blue_marble"
+    end
+    furniture.register("ethereal:blue_marble", furniture.stonelike_set, {"ethereal:blue_marble", secondary_blue_marble}, "ethereal_blue_marble_tile.png")
+    furniture.register("ethereal:banana_wood", furniture.woodlike_set, {"ethereal:banana_wood", "default:stick"}, "furniture_ethereal_banana_wood.png")
+    furniture.register("ethereal:birch_wood", furniture.woodlike_set, {"ethereal:birch_wood", "default:stick"}, "furniture_ethereal_birch_wood.png")
+    furniture.register("ethereal:frost_wood", furniture.woodlike_set, {"ethereal:frost_wood", "default:stick"}, "furniture_ethereal_frost_wood.png")
+    furniture.register("ethereal:mushroom_trunk", furniture.woodlike_set, {"ethereal:mushroom_trunk", "default:stick"}, "furniture_ethereal_mushroom_trunk.png")
+    furniture.register("ethereal:olive_wood", furniture.woodlike_set, {"ethereal:olive_wood", "default:stick"}, "furniture_ethereal_olive_wood.png")
+    furniture.register("ethereal:palm_wood", furniture.woodlike_set, {"ethereal:palm_wood", "default:stick"}, "furniture_ethereal_palm_wood.png")
+    furniture.register("ethereal:redwood_wood", furniture.woodlike_set, {"ethereal:redwood_wood", "default:stick"}, "furniture_ethereal_redwood_wood.png")
+    furniture.register("ethereal:sakura_wood", furniture.woodlike_set, {"ethereal:sakura_wood", "default:stick"}, "furniture_ethereal_sakura_wood.png")
+    furniture.register("ethereal:willow_wood", furniture.woodlike_set, {"ethereal:willow_wood", "default:stick"}, "furniture_ethereal_willow_wood.png")
+    furniture.register("ethereal:yellow_wood", furniture.woodlike_set, {"ethereal:yellow_wood", "default:stick"}, "furniture_ethereal_yellow_wood.png")
 end
 -- Moreblocks
 if minetest.get_modpath("moreblocks") then
