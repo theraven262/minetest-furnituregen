@@ -41,7 +41,7 @@ furniture.types = {
         -- crafting - an array where each position corresponds to a cell in the crafting grid, values represent materials; 0 is empty, 1 is base and
         -- above are the other materials in the order from special_materials
         -- The following overrides can be applied to the base node, and/or to the active node by appending the _active suffix (all optional):
-        -- light_source, visual_scale, post_effect_color, place_param2, walkable, pointable, diggable, climbable, move_resistance, buildable_to, floodable, drowning, damage per second.
+        -- light_source, visual_scale, post_effect_color, walkable, pointable, diggable, climbable, move_resistance, buildable_to, floodable, drowning, damage per second.
     },
     {
         name = "chair",

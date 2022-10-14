@@ -477,15 +477,22 @@ end
 -- Default Material Registration
 
 furniture.register("default:wood", furniture.woodlike_set, {"default:wood", "default:stick"}, "furniture_wood.png")
+furniture.register("default:acacia_wood", furniture.woodlike_set, {"default:acacia_wood", "default:stick"}, "furniture_acacia_wood.png")
+furniture.register("default:aspen_wood", furniture.woodlike_set, {"default:aspen_wood", "default:stick"}, "furniture_aspen_wood.png")
+furniture.register("default:junglewood", furniture.woodlike_set, {"default:junglewood", "default:stick"}, "furniture_junglewood.png")
+furniture.register("default:pine_wood", furniture.woodlike_set, {"default:pine_wood", "default:stick"}, "furniture_pine_wood.png")
 furniture.register("default:steelblock", furniture.woodlike_set, {"default:steelblock", "default:steel_ingot"}, "furniture_steelblock.png")
 
+local sandstone_secondary = "stairs:slab_sandstone"
+local stone_secondary = "stairs:slab_stone"
+
 if minetest.get_modpath("moreblocks") then -- Cause moreblocks overrides slabs
-    furniture.register("default:sandstone", furniture.stonelike_set, {"default:sandstone", "moreblocks:slab_sandstone"}, "default_sandstone_block.png")
-    furniture.register("default:stone", furniture.stonelike_set, {"default:stone", "moreblocks:slab_stone"}, "default_stone_block.png")
-else
-    furniture.register("default:sandstone", furniture.stonelike_set, {"default:sandstone", "stairs:slab_sandstone"}, "default_sandstone_block.png")
-    furniture.register("default:stone", furniture.stonelike_set, {"default:stone", "stairs:slab_stone"}, "default_stone_block.png")
+    sandstone_secondary = "moreblocks:slab_sandstone"
+    stone_secondary = "moreblocks:slab_stone"
 end
+
+furniture.register("default:sandstone", furniture.stonelike_set, {"default:sandstone", sandstone_secondary}, "default_sandstone_block.png")
+furniture.register("default:stone", furniture.stonelike_set, {"default:stone", stone_secondary}, "default_stone_block.png")
 
 furniture.register("default:glass", furniture.glasslike_set, {"default:glass", "default:sand"}, "default_glass.png")
 furniture.register("default:obsidian_glass", furniture.glasslike_set, {"default:obsidian_glass", "default:obsidian_shard"}, "default_obsidian_glass.png")
