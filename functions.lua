@@ -83,7 +83,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
         esname = sname
     end
     local furniture_description =  base_definition.description .. " " .. fdef.description
-    local furniture_mesh = (fdef.base or fdef.name) .. ".obj"
+    local furniture_mesh = "furniture_" .. (fdef.base or fdef.name) .. ".obj"
     local tiles = {texture or base_definition.tiles[1]}
     local alpha = base_definition.use_texture_alpha
     local sounds = base_definition.sounds
@@ -92,15 +92,38 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     if fdef.groups then
         furniture.dictionary_append(groups, fdef.groups)
     end
+    local activate_sound
+    local gain
+    if fdef.activate_sound then
+        if type(fdef.activate_sound[esname]) == "table" then
+            activate_sound = fdef.activate_sound[esname][1] or fdef.activate_sound.default[1]
+            gain = fdef.activate_sound[esname][2] or fdef.activate_sound.default[2]
+        else
+            activate_sound = fdef.activate_sound[esname] or fdef.activate_sound.default
+            gain = 0.06
+        end
+    end
 
     -- Active versions
-    local furniture_mesh_active = (fdef.base or fdef.name) .. "_activated.obj"
+    local furniture_mesh_active = "furniture_" .. (fdef.base or fdef.name) .. "_activated.obj"
     local tiles_active = furniture.table_copy(tiles)
     local collision_box_active = {type = "fixed", fixed = fdef.box_activated}
     local groups_active = furniture.table_copy(groups)
     groups_active.not_in_creative_inventory = 1
+    groups_active.not_in_craft_guide = 1
     if fdef.groups_active then
         furniture.dictionary_append(groups_active, fdef.groups_active)
+    end
+    local deactivate_sound
+    local gain_activated
+    if fdef.deactivate_sound then
+        if type(fdef.deactivate_sound[esname]) == "table" then
+            deactivate_sound = fdef.deactivate_sound[esname][1] or fdef.deactivate_sound.default[1]
+            gain_activated = fdef.deactivate_sound[esname][2] or fdef.deactivate_sound.default[2]
+        else
+            deactivate_sound = fdef.deactivate_sound[esname] or fdef.deactivate_sound.default
+            gain_activated = 0.13
+        end
     end
 
     -- Textures
@@ -158,21 +181,18 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             on_rightclick = function(pos, node)
                 minetest.swap_node(pos, {name = furniture_name .. "_activated", param2 = node.param2})
                 minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
-                {pos = pos, max_hear_distance = 10}, true)
+                minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
             end
             on_rightclick_active = function(pos, node)
                 minetest.swap_node(pos, {name = furniture_name, param2 = node.param2})
                 minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.default,
-                {pos = pos, max_hear_distance = 10}, true)
+                minetest.sound_play(deactivate_sound, {pos = pos, gain = gain_active, max_hear_distance = 10}, true)
             end
         end
 
         on_rightclick = function(pos, node, player)
             minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-            minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
-            {pos = pos, max_hear_distance = 10}, true)
+            minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
         end
 
         can_dig = function(pos, player)
@@ -209,13 +229,11 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     if fdef.active then
         on_rightclick = function(pos, node)
             minetest.swap_node(pos, {name = furniture_name .. "_activated", param2 = node.param2})
-            minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
-            {pos = pos, max_hear_distance = 10}, true)
+            minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
         end
         on_rightclick_active = function(pos, node)
             minetest.swap_node(pos, {name = furniture_name, param2 = node.param2})
-            minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.default,
-            {pos = pos, max_hear_distance = 10}, true)
+            minetest.sound_play(deactivate_sound, {pos = pos, gain = gain_active, max_hear_distance = 10}, true)
         end
     end
 
@@ -233,8 +251,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 local playername = player:get_player_name()
                 if playername == owner then
                     minetest.swap_node(pos, {name = furniture_name .. "_activated_locked", param2 = node.param2})
-                    minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
-                    {pos = pos, max_hear_distance = 10}, true)
+                    minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
                 end
             end
             on_rightclick_active_locked = function(pos, node, player)
@@ -243,8 +260,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 local playername = player:get_player_name()
                 if playername == owner then
                     minetest.swap_node(pos, {name = furniture_name .. "_locked", param2 = node.param2})
-                    minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.default,
-                    {pos = pos, max_hear_distance = 10}, true)
+                    minetest.sound_play(deactivate_sound, {pos = pos, gain = gain_active, max_hear_distance = 10}, true)
                 end
             end
         end
@@ -265,8 +281,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                     if playername == owner then
                         minetest.swap_node(pos, {name = furniture_name .. "_activated_locked", param2 = node.param2})
                         minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                        minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
-                        {pos = pos, max_hear_distance = 10}, true)
+                        minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
                     end
                 end
                 on_rightclick_active_locked = function(pos, node, player)
@@ -276,8 +291,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                     if playername == owner then
                         minetest.swap_node(pos, {name = furniture_name .. "_locked", param2 = node.param2})
                         minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                        minetest.sound_play(fdef.deactivate_sound[esname] or fdef.deactivate_sound.default,
-                        {pos = pos, max_hear_distance = 10}, true)
+                        minetest.sound_play(deactivate_sound, {pos = pos, gain = gain_active, max_hear_distance = 10}, true)
                     end
                 end
             end
@@ -287,8 +301,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 local playername = player:get_player_name()
                 if playername == owner then
                     minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                    minetest.sound_play(fdef.activate_sound[esname] or fdef.activate_sound.default,
-                    {pos = pos, max_hear_distance = 10}, true)
+                    minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
                 end
             end
             can_dig_locked = function(pos, player)

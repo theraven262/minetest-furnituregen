@@ -140,20 +140,20 @@ if minetest.get_modpath("caverealms") then
         "window_glow_ruby_thick"
     }
     furniture.caverealms_door_open_sounds = {
-        caverealms_glow_amethyst = "doors_glass_door_open",
-        caverealms_glow_crystal = "doors_glass_door_open",
-        caverealms_glow_emerald = "doors_glass_door_open",
-        caverealms_glow_mese = "doors_glass_door_open",
-        caverealms_glow_ruby = "doors_glass_door_open",
-        caverealms_glow_obsidian_glass = "doors_glass_door_open",
+        caverealms_glow_amethyst = {"doors_glass_door_open", 0.3},
+        caverealms_glow_crystal = {"doors_glass_door_open", 0.3},
+        caverealms_glow_emerald = {"doors_glass_door_open", 0.3},
+        caverealms_glow_mese = {"doors_glass_door_open", 0.3},
+        caverealms_glow_ruby = {"doors_glass_door_open", 0.3},
+        caverealms_glow_obsidian_glass = {"doors_glass_door_open", 0.3},
     }
     furniture.caverealms_door_close_sounds = {
-        caverealms_glow_amethyst = "doors_glass_door_close",
-        caverealms_glow_crystal = "doors_glass_door_close",
-        caverealms_glow_emerald = "doors_glass_door_close",
-        caverealms_glow_mese = "doors_glass_door_close",
-        caverealms_glow_ruby = "doors_glass_door_close",
-        caverealms_glow_obsidian_glass = "doors_glass_door_close",
+        caverealms_glow_amethyst = {"doors_glass_door_close", 0.25},
+        caverealms_glow_crystal = {"doors_glass_door_close", 0.25},
+        caverealms_glow_emerald = {"doors_glass_door_close", 0.25},
+        caverealms_glow_mese = {"doors_glass_door_close", 0.25},
+        caverealms_glow_ruby = {"doors_glass_door_close", 0.25},
+        caverealms_glow_obsidian_glass = {"doors_glass_door_close", 0.25},
     }
 
     furniture.dictionary_append(furniture.door_open_sounds, furniture.caverealms_door_open_sounds)

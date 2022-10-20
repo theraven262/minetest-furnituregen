@@ -1,22 +1,22 @@
 -- Sound tables
 furniture.storage_sounds = {
-    default = "doors_door_open",
-    wood = "doors_door_open",
-    steelblock = "doors_steel_door_open"
+    default = {"doors_door_open", 0.06},
+    wood = {"doors_door_open", 0.06},
+    steelblock = {"doors_steel_door_open", 0.2}
 }
 furniture.door_open_sounds = {
-    default = "doors_door_open",
-    wood = "doors_door_open",
-    steelblock = "doors_steel_door_open",
-    glass = "doors_glass_door_open",
-    obsidian_glass = "doors_glass_door_open",
+    default = {"doors_door_open", 0.06},
+    wood = {"doors_door_open", 0.06},
+    steelblock = {"doors_steel_door_open", 0.2},
+    glass = {"doors_glass_door_open", 0.3},
+    obsidian_glass = {"doors_glass_door_open", 0.3},
 }
 furniture.door_close_sounds = {
-    default = "doors_door_close",
-    wood = "doors_door_close",
-    steelblock = "doors_steel_door_close",
-    glass = "doors_glass_door_close",
-    obsidian_glass = "doors_glass_door_close",
+    default = {"doors_door_close", 0.13},
+    wood = {"doors_door_close", 0.13},
+    steelblock = {"doors_steel_door_close", 0.2},
+    glass = {"doors_glass_door_close", 0.25},
+    obsidian_glass = {"doors_glass_door_close", 0.25},
 }
 
 -- Model Definitions
