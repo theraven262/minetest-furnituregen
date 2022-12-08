@@ -32,7 +32,8 @@ furniture.types = {
         -- special_textures_activated - textures other than base for the activated model (optional, order important)
         -- storage - number of rows of inventory, 8 slots each (optional)
         -- generate_locked [true/false] - do the locked versions of the node generate (optional, only works if there is storage or node is active)
-        -- box - both the selection and the collision box
+        -- cbox - nil or the collision box
+        -- box - both the selection and the collision box (if cbox=nil)
         -- box_activated - both the selection and the collision box for the activated counterpart
         -- activate_sound - table containing the default and mod-material-specific sounds that play upon activation
         -- deactivate_sound - table containing the default and mod-material-specific sounds that play upon activation of the active counterpart
@@ -46,6 +47,7 @@ furniture.types = {
     {
         name = "chair",
         description = "Chair",
+        cbox = {-0.3125, -0.5, -0.375, 0.3125, 1/16, 0.3125},
         box = {-0.3125, -0.5, -0.375, 0.3125, 0.6875, 0.3125},
         crafting = {0, 0, 1, 0, 1, 1, 0, 2, 2}
     },
@@ -164,6 +166,7 @@ furniture.types = {
     {
         name = "chair_thick",
         description = "Chair",
+        cbox = {-6/16, -0.5, -5/16, 6/16, 0, 7/16},
         box = {-6/16, -0.5, -5/16, 6/16, 0.5, 7/16},
         crafting = {0, 0, 2, 0, 1, 1, 2, 2, 2}
     },
@@ -238,6 +241,7 @@ furniture.types = {
     {
         name = "chair_glass",
         description = "Chair",
+        cbox = {-5/16, -0.5, -3/16, 5/16, 1/16, 6/16},
         box = {-5/16, -0.5, -3/16, 5/16, 11/16, 6/16},
         crafting = {0, 0, 1, 0, 1, 1, 0, 2, 2}
     },
