@@ -29,12 +29,13 @@ furniture.types = {
         -- active [true/false] - does this node swap with a different version when right clicked
         -- special_materials - materials other than base, used for crafting (optional, order important)
         -- special_textures - textures other than base (optional, order important)
-        -- special_textures_activated - textures other than base for the activated model (optional, order important)
+        -- special_textures_active - textures other than base for the activated model (optional, order important)
         -- storage - number of rows of inventory, 8 slots each (optional)
         -- generate_locked [true/false] - do the locked versions of the node generate (optional, only works if there is storage or node is active)
         -- cbox - nil or the collision box
         -- box - both the selection and the collision box (if cbox=nil)
-        -- box_activated - both the selection and the collision box for the activated counterpart
+        -- cbox_active and box_active - as above, but for the activated versions
+        -- box_active - both the selection and the collision box for the activated counterpart
         -- activate_sound - table containing the default and mod-material-specific sounds that play upon activation
         -- deactivate_sound - table containing the default and mod-material-specific sounds that play upon activation of the active counterpart
         -- groups - groups which are added to the groups table of the resulting node, can override base node's groups (optional)
@@ -42,7 +43,7 @@ furniture.types = {
         -- crafting - an array where each position corresponds to a cell in the crafting grid, values represent materials; 0 is empty, 1 is base and
         -- above are the other materials in the order from special_materials
         -- The following overrides can be applied to the base node, and/or to the active node by appending the _active suffix (all optional):
-        -- light_source, visual_scale, post_effect_color, walkable, pointable, diggable, climbable, move_resistance, buildable_to, floodable, drowning, damage per second.
+        -- use_texture_alpha, sunlight_propagates, light_source, visual_scale, post_effect_color, walkable, pointable, diggable, climbable, move_resistance, buildable_to, floodable, drowning, damage per second.
     },
     {
         name = "chair",
@@ -251,7 +252,7 @@ furniture.types = {
         active = true,
         generate_locked = true,
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, -6/16},
-        box_activated = {-0.5, -0.5, -0.5, -6/16, 1.5, 0.5},
+        box_active = {-0.5, -0.5, -0.5, -6/16, 1.5, 0.5},
         activate_sound = furniture.door_open_sounds,
         deactivate_sound = furniture.door_close_sounds,
         crafting = {1, 1, 0, 1, 1, 2, 1, 1, 0}
@@ -262,7 +263,7 @@ furniture.types = {
         active = true,
         generate_locked = true,
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, -6/16},
-        box_activated = {0.5, -0.5, -0.5, 6/16, 1.5, 0.5},
+        box_active = {0.5, -0.5, -0.5, 6/16, 1.5, 0.5},
         activate_sound = furniture.door_open_sounds,
         deactivate_sound = furniture.door_close_sounds,
         crafting = {0, 1, 1, 2, 1, 1, 0, 1, 1}
@@ -290,7 +291,7 @@ furniture.types = {
         active = true,
         generate_locked = true,
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, -4/16},
-        box_activated = {-0.5, -0.5, -0.5, -4/16, 1.5, 0.5},
+        box_active = {-0.5, -0.5, -0.5, -4/16, 1.5, 0.5},
         activate_sound = furniture.door_open_sounds,
         deactivate_sound = furniture.door_close_sounds,
         crafting = {1, 1, 0, 1, 1, 2, 1, 1, 0}
@@ -301,7 +302,7 @@ furniture.types = {
         active = true,
         generate_locked = true,
         box = {-0.5, -0.5, -0.5, 0.5, 1.5, -4/16},
-        box_activated = {0.5, -0.5, -0.5, 4/16, 1.5, 0.5},
+        box_active = {0.5, -0.5, -0.5, 4/16, 1.5, 0.5},
         activate_sound = furniture.door_open_sounds,
         deactivate_sound = furniture.door_close_sounds,
         crafting = {0, 1, 1, 2, 1, 1, 0, 1, 1}

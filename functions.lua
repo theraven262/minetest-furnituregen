@@ -85,9 +85,15 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     local furniture_description =  base_definition.description .. " " .. fdef.description
     local furniture_mesh = "furniture_" .. (fdef.base or fdef.name) .. ".obj"
     local tiles = {texture or base_definition.tiles[1]}
-    local alpha = base_definition.use_texture_alpha
+    local sunlight
+    if (fdef.sunlight_propagates) then
+        sunlight = fdef.sunlight_propagates
+    else
+        sunlight = true
+    end
     local sounds = base_definition.sounds
-    local collision_box = {type = "fixed", fixed = fdef.cbox or fdef.box }
+    local selection_box = {type = "fixed", fixed = fdef.box}
+    local collision_box = {type = "fixed", fixed = fdef.cbox or fdef.box}
     local groups = furniture.table_copy(base_definition.groups)
     if fdef.groups then
         furniture.dictionary_append(groups, fdef.groups)
@@ -107,22 +113,29 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     -- Active versions
     local furniture_mesh_active = "furniture_" .. (fdef.base or fdef.name) .. "_activated.obj"
     local tiles_active = furniture.table_copy(tiles)
-    local collision_box_active = {type = "fixed", fixed = fdef.box_activated}
+    local selection_box_active = {type = "fixed", fixed = fdef.box_active}
+    local collision_box_active = {type = "fixed", fixed = fdef.cbox_active or fdef.box_active}
     local groups_active = furniture.table_copy(groups)
     groups_active.not_in_creative_inventory = 1
     groups_active.not_in_craft_guide = 1
     if fdef.groups_active then
         furniture.dictionary_append(groups_active, fdef.groups_active)
     end
+    local sunlight_active
+    if (fdef.sunlight_propagates_active) then
+        sunlight_active = fdef.sunlight_propagates_active
+    else
+        sunlight_active = true
+    end
     local deactivate_sound
-    local gain_activated
+    local gain_active
     if fdef.deactivate_sound then
         if type(fdef.deactivate_sound[esname]) == "table" then
             deactivate_sound = fdef.deactivate_sound[esname][1] or fdef.deactivate_sound.default[1]
-            gain_activated = fdef.deactivate_sound[esname][2] or fdef.deactivate_sound.default[2]
+            gain_active = fdef.deactivate_sound[esname][2] or fdef.deactivate_sound.default[2]
         else
             deactivate_sound = fdef.deactivate_sound[esname] or fdef.deactivate_sound.default
-            gain_activated = 0.13
+            gain_active = 0.13
         end
     end
 
@@ -188,11 +201,11 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
                 minetest.sound_play(deactivate_sound, {pos = pos, gain = gain_active, max_hear_distance = 10}, true)
             end
-        end
-
-        on_rightclick = function(pos, node, player)
-            minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-            minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
+        else
+            on_rightclick = function(pos, node, player)
+                minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
+                minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
+            end
         end
 
         can_dig = function(pos, player)
@@ -294,14 +307,15 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                         minetest.sound_play(deactivate_sound, {pos = pos, gain = gain_active, max_hear_distance = 10}, true)
                     end
                 end
-            end
-            on_rightclick_locked = function(pos, node, player)
-                local meta = minetest.get_meta(pos)
-                local owner = meta:get_string("owner")
-                local playername = player:get_player_name()
-                if playername == owner then
-                    minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
-                    minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
+            else
+                on_rightclick_locked = function(pos, node, player)
+                    local meta = minetest.get_meta(pos)
+                    local owner = meta:get_string("owner")
+                    local playername = player:get_player_name()
+                    if playername == owner then
+                        minetest.show_formspec(player:get_player_name(), furniture_name, furniture.get_storage_formspec(pos, fdef.storage))
+                        minetest.sound_play(activate_sound, {pos = pos, gain = gain, max_hear_distance = 10}, true)
+                    end
                 end
             end
             can_dig_locked = function(pos, player)
@@ -329,11 +343,11 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
         drawtype = 'mesh',
         mesh = furniture_mesh,
         collision_box = collision_box,
-        selection_box = collision_box,
-        use_texture_alpha = alpha,
+        selection_box = selection_box,
+        use_texture_alpha = fdef.alpha or base_definition.use_texture_alpha,
         paramtype = "light",
         paramtype2 = "facedir",
-        sunlight_propagates = true,
+        sunlight_propagates = sunlight,
         sounds = sounds,
         after_place_node = after_place_node,
         on_rightclick = on_rightclick,
@@ -364,11 +378,11 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             drawtype = 'mesh',
             mesh = furniture_mesh_active,
             collision_box = collision_box_active,
-            selection_box = collision_box_active,
-            use_texture_alpha = alpha,
+            selection_box = selection_box_active,
+            use_texture_alpha = fdef.alpha_active or base_definition.use_texture_alpha,
             paramtype = "light",
             paramtype2 = "facedir",
-            sunlight_propagates = true,
+            sunlight_propagates = sunlight_active,
             sounds = sounds,
             drops = furniture_name,
             after_place_node = after_place_node,
@@ -401,13 +415,12 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
             drawtype = 'mesh',
             mesh = furniture_mesh,
             collision_box = collision_box,
-            selection_box = collision_box,
-            use_texture_alpha = alpha,
+            selection_box = selection_box,
+            use_texture_alpha = fdef.alpha or base_definition.use_texture_alpha,
             paramtype = "light",
             paramtype2 = "facedir",
-            sunlight_propagates = true,
+            sunlight_propagates = sunlight,
             sounds = sounds,
-            light_source = fdef.light_source or base_definition.light_source,
             after_place_node = after_place_node_locked,
             on_rightclick = on_rightclick_locked,
             can_dig = can_dig_locked,
@@ -436,13 +449,12 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
                 drawtype = 'mesh',
                 mesh = furniture_mesh_active,
                 collision_box = collision_box_active,
-                selection_box = collision_box_active,
-                use_texture_alpha = alpha,
+                selection_box = selection_box_active,
+                use_texture_alpha = fdef.alpha_active or base_definition.use_texture_alpha,
                 paramtype = "light",
                 paramtype2 = "facedir",
-                sunlight_propagates = true,
+                sunlight_propagates = sunlight_active,
                 sounds = sounds,
-                light_source = fdef.light_source_active or base_definition.light_source,
                 drops = furniture_name,
                 after_place_node = after_place_node_locked,
                 on_rightclick = on_rightclick_active_locked,
@@ -472,7 +484,6 @@ end
 function furniture.register_crafting(base_node, i, materials_in, locked)
     local materials = furniture.table_copy(materials_in)
     local fdef = furniture.types[i]
-    local base_definition = minetest.registered_nodes[base_node]
     local sname = string.match(base_node, ':(.*)')
     local modname = string.match(base_node, '(.*):')
     local furniture_name = "furniture:" .. modname .. "_" .. fdef.name .. "_" .. sname
