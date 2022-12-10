@@ -87,7 +87,7 @@ function furniture.assemble_node(base_node, tablep, materials, texture)
     local tiles = {texture or base_definition.tiles[1]}
     local alpha = base_definition.use_texture_alpha
     local sounds = base_definition.sounds
-    local collision_box = {type = "fixed", fixed = fdef.box}
+    local collision_box = {type = "fixed", fixed = fdef.cbox or fdef.box }
     local groups = furniture.table_copy(base_definition.groups)
     if fdef.groups then
         furniture.dictionary_append(groups, fdef.groups)
