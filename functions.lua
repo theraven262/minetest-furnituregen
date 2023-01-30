@@ -53,8 +53,17 @@ function furniture.get_storage_formspec(pos, storage)
 		"list[current_player;main;0," .. 2.08 + storage .. ";8,3;8]" ..
 		"listring[nodemeta:" .. spos .. ";main]" ..
 		"listring[current_player;main]" ..
-		default.get_hotbar_bg(0,0.85 + storage)
+		furniture.get_hotbar_bg(0,0.85 + storage)
 	return formspec
+end
+
+function furniture.get_hotbar_bg(x_scale, y_scale)
+    local game = minetest.get_game_info().id
+    if (game == "Lord-of-the-Test") then
+        return default.gui_bg_img
+    else
+        return default.get_hotbar_bg(x_scale, y_scale)
+    end
 end
 
 -- Furniture registration
